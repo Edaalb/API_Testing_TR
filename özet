@@ -1,4 +1,4 @@
-<!--
+
      GENEL ÖZET
 
 *** Bu body'i IPA sorgusunda kullanabilmek için kaç farklı data tipinde hazırlayabiliriz?
@@ -243,25 +243,3 @@ BaseUrl ile PathParams Kullanimi
                       phonenumbers[0].number
                       phonenumbers[1].home
 ----------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
--->
