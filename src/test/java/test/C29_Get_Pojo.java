@@ -1,9 +1,7 @@
 package test;
 import baseURL.DummyBaseURL;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import org.junit.Test;
-import org.testng.Assert;
 import pojos.PojoDummyData;
 import pojos.PojoDummyExpectedBody;
 
@@ -14,6 +12,7 @@ public class C29_Get_Pojo extends DummyBaseURL{
     /*
 http://dummy.restapiexample.com/api/v1/employee/3 url’ine bir GET request
  gonderdigimizde donen response’un asagidaki gibi oldugunu test edin.
+
 Response Body
 {
 "status":"success",

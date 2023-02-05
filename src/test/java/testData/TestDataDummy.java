@@ -21,6 +21,8 @@ public class TestDataDummy {
     }
      */
 
+    //önce içerdeki JSON Object'i bir method'a atarız,
+    //o method'u diğerinin içerisinden call ederiz
     public JSONObject innerJSONBody (){
 
         JSONObject innerBody = new JSONObject();
@@ -39,7 +41,7 @@ public class TestDataDummy {
 
         expBody.put("status","success");
         expBody.put("message","Successfully! Record has been fetched.");
-        expBody.put("data",innerJSONBody());
+        expBody.put("data",innerJSONBody()); // yukarıda oluşturduğumuz innerbody method'u call ettik
 
         return expBody;
     }
@@ -63,6 +65,7 @@ public class TestDataDummy {
         expBody.put("status","success");
         expBody.put("message","Successfully! Record has been fetched.");
         expBody.put("data",innerBodyOlusturMap());
+                          //method'u yazarız
 
         return expBody;
     }

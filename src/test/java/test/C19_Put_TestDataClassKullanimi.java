@@ -36,7 +36,7 @@ public class C19_Put_TestDataClassKullanimi extends JsonPlaceHolderBaseUrl{
     @Test
     public void put01(){
 
-        // 1 - URL ve Body hazirla
+        // 1 - URL ve Body hazirla  (PUT request--> body)
 
         specJsonPlace.pathParams("pp1","posts","pp2",70);
 
@@ -46,23 +46,26 @@ public class C19_Put_TestDataClassKullanimi extends JsonPlaceHolderBaseUrl{
 
         // 2 - Expected Data hazirla
 
+        //request body ve expected body aynı olduğu için aynı değeri aynı method
+        //üzerinden çağırabiliriz ancak yeni bir JSONObject'e expData olarak kaydederiz
         JSONObject expData = testDataJsonPlaceHolder.requestBodyOlusturJSON();
 
         // 3 - Response'i kaydet
 
         Response response =given().
                 spec(specJsonPlace).
-                contentType(ContentType.JSON).
+                contentType(ContentType.JSON). //put req olduğu için her halükarda content type gönderilir
                 when().
-                body(reqBody.toString()).
-                put("/{pp1}/{pp2}");
+                body(reqBody.toString()). //body göndeririz
+                put("/{pp1}/{pp2}"); //iki tane path param olduğundan {} ile yazılır
 
         // 4 - Assertion
-
+                                  //response'dan dönen temel bilgiler
         assertEquals(testDataJsonPlaceHolder.basariliStatusCode,response.getStatusCode());
         assertEquals(testDataJsonPlaceHolder.contentType,response.getContentType());
         assertEquals(testDataJsonPlaceHolder.connectionHeaderDegeri,response.getHeader("Connection"));
 
+                                    //body'e dair bilgiler
         JsonPath resJP = response.jsonPath();
 
         assertEquals(expData.get( "title"),resJP.get( "title"));

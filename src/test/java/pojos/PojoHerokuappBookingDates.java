@@ -4,9 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+// notasyonları yerleştiririz
+@Data //buraya tanımladığımız variable'ların getter, setter, toString'ini hazırlar
+@NoArgsConstructor //parametresiz constructor oluşturur
+@AllArgsConstructor //bütün argümanları içeren constructor oluşturur
+//daha önce bunları generate'den yapıyorduk
+
 public class PojoHerokuappBookingDates {
     /*
   {
@@ -14,6 +17,8 @@ public class PojoHerokuappBookingDates {
      "checkout":"2021-06-10"
    }
    */
+
+    //yalnızca data tiplerine uygun variable'ları
     private String checkin;
     private String checkout;
 }

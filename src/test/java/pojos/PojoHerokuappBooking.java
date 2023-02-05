@@ -24,9 +24,11 @@ public class PojoHerokuappBooking {
     private String firstname;
     private String lastname;
     private int totalprice;
-    private boolean depositpaid;
+    private boolean depositpaid; //boolean özelliği olarak çağırıldığında isdepositpaid olarak çıkar
     private String additionalneeds;
 
+    //bookingdates diğer class'tan bir object, başka bir pojo class'ta bunu oluşturduk
+    //o yüzden o class'tan bir object olarak oluştururuz
     private PojoHerokuappBookingDates bookingdates;
 
 }

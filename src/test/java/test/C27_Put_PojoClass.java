@@ -2,7 +2,6 @@ package test;
 import baseURL.JsonPlaceHolderBaseUrl;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 import org.junit.Assert;
 import org.junit.Test;
 import pojos.POJOJsonPlaceHolder;
@@ -36,6 +35,7 @@ public class C27_Put_PojoClass extends JsonPlaceHolderBaseUrl{
 
         specJsonPlace.pathParams("pp1","posts","pp2",70);
 
+        //oluşturduğumuz class'ın data tipini kullanmamız gerekir.
         POJOJsonPlaceHolder reqBody = new POJOJsonPlaceHolder("Ahmet","Merhaba",70,10);
 
         System.out.println("reqBody = " + reqBody);
@@ -52,7 +52,7 @@ public class C27_Put_PojoClass extends JsonPlaceHolderBaseUrl{
                 spec(specJsonPlace).
                 contentType(ContentType.JSON).
                 when().
-                body(reqBody).
+                body(reqBody). //string'e çevirmeye gerek yoktur, jojo java'ya ait bir objectir
                 put("/{pp1}/{pp2}");
 
         response.prettyPrint();

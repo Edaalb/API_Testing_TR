@@ -50,14 +50,17 @@ public class C24_Post_Deserialization extends HerokuappBaseUrl{
 
         specHerokuapp.pathParam("pp1","booking");
 
+        //burada bir kere object'i oluşturduğumuzda bu obejinin altına class ile
+        //ilgili istediğimiz kadar method, variable çağırabiliriz
         TestDataHerokuapp testDataHerokuapp = new TestDataHerokuapp();
 
         HashMap <String,Object> reqBody = testDataHerokuapp.bookingOlusturMap();
 
         // 2 - Expected Data hazirla
 
+        //reqBody ile expData her zaman aynı içeriğe sahip olmaz.
+        // bize dönen başka bir şey olabilir.
         HashMap <String,Object> expData = testDataHerokuapp.expBodyOlusturMap();
-
 
         // 3 - Response'i kaydet
 
@@ -75,7 +78,7 @@ public class C24_Post_Deserialization extends HerokuappBaseUrl{
         /*{
             "bookingid":24,
             "booking":{
-                     "firstname":"Ali",
+                    "firstname":"Ali",
                     "lastname":"Bak",
                     "totalprice":500,
                     "depositpaid":false,
@@ -87,6 +90,9 @@ public class C24_Post_Deserialization extends HerokuappBaseUrl{
                        }
            }
            */
+
+        //önce expected, sonra actual data
+        //actual data'yı respMap'e çevirmiştik
 
         Assert.assertEquals(  ((Map)(expData.get("booking"))).get("firstname")  ,
                 ((Map)(respMap.get("booking"))).get("firstname") );
@@ -108,7 +114,6 @@ public class C24_Post_Deserialization extends HerokuappBaseUrl{
 
         Assert.assertEquals(    ((Map)(((Map)(expData.get("booking"))).get("bookingdates"))).get("checkout")  ,
                 ((Map)(((Map)(respMap.get("booking"))).get("bookingdates"))).get("checkout")         );
-
 
     }
 }

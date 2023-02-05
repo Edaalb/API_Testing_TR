@@ -1,0 +1,267 @@
+<!--
+     GENEL ÖZET
+
+*** Bu body'i IPA sorgusunda kullanabilmek için kaç farklı data tipinde hazırlayabiliriz?
+    JSON ve MAP data tiplerinde hazırlayabiliriz
+
+*** Bu body'i kaç farklı yöntemle hazırlayabiliriz?
+    1- class'da JSON ya da MAP'i oluşturarak
+    2- methodlarla --> test data class'ı içerisinde oluşturduğumuz methodlarla
+    3- pojo classlar ile
+
+*** Dönen response body ile ilgili temel bilgileri nasıl sorgularız? Status Code, Content Type vb.
+    Direk response objesi üzerinden
+
+*** Response body'si kaç farklı yöntem ile sorgulanır?
+    1- Response üzerinden then ile gelen assertThat'in sağladığı Matchers class yardımı ile
+    2- JUnit - Assert
+    3- SoftAssert
+
+    JUnit içerisinde farklı farklı şekiller vardır
+
+  1- JSONObject üzerinden direk olarak JSONObject'in herbir elemanına get'ler ile ulaşabiliriz
+
+       Örneğin iç içe JSONObject'ler varsa önce içteki JSON Objecti getir diyerek sonra onun
+       içerisindeki bir key değerine get ile ulaşabiliriz. Bunun için herbirini ayrı ayrı çağırmalıyız
+
+  2- JSONPath'te ise sadece aralarına nokta koyarak path'i takip ederek verilere ulaşıp test ederiz
+
+  3- MAP'lerde seralization-deseralization aracılığıyla dataları MAP'e cast ederek sorgularız
+
+  4- POJO'lar ile JSONObject, JSONPath ya da data casting'e ihtiyaç kalmadan direk getter/setter'ların
+     sağladığı methodlarla test yapılır
+
+  ----------------------------------------------------------------------------------------------------
+  *Test Datasi Nedir ? :
+
+      Bir test sirasinda request ile gonderilen (request body) veya test sonucunda
+      donmesi beklenen datalarin (expected data ve temel response bilgileri) tamamina
+      Test Datasi denir.
+
+  ----------------------------------------------------------------------------------------------------
+
+  SOFT ASSERT (VERIFICATION)
+
+     * Eğer softAssert başarısız olursa test method’unun geri kalanini durdurmaz
+       ve yürütmeye devam eder. If else statement’da olduğu gibi.
+
+     * SoftAssert doğrulama (verification) olarak da bilinir.
+
+     * SoftAssert kullanabilmemiz için object create etmemiz gerekir.
+
+     		• 1.Adım: SoftAssert objesi olusturma
+     			SoftAssert softAssert = new SoftAssert();
+
+          • 2.Adım: Istedigimiz verification’lari yapma
+          	softAssert.assertTrue();
+
+  		• 3.Adım: SoftAssert’in durumu raporlamasini isteme
+  			softAssert.assertAll();
+
+    HARD ASSERT
+
+  *JUnit'te Öğrendiğimiz AssertionTürü
+
+		i. Assert.assertEquals()
+		ii. Assert.assertTrue()
+		iii. Assert.assertFalse()
+
+  * Assert methodlari kullanildiginda, bir assertion FAILED olursa execution durur, test method’nun geri kalanı calismaz.
+
+  * Test case’in neden başarısız olduğunu hemen anlamak için hard assertion’u tercih edebiliriz.
+
+  * Birden fazla assert yapiyorsak assertion başarısız olursa, execution durur,
+    onu duzeltip yeniden calistirdiginizda baska bir assertion FAILED olabilir,
+    her seferinde bir hatayi gormus ve duzeltmis olursunuz.
+    Testteki hatalari duzeltmek icin bu yontem cok uygun olmayabilir.
+
+
+
+  ----------------------------------------------------------------------------------------------------
+
+    REST API’da istenen veri türüyle işlem yapabilir, ancak JSON veri tipi ile diger
+    data turlerine gore çok daha düşük boyutlarda veri kullanildigindan genellikle
+    JSONObject kullanimi tercih edilir.
+
+    JSONObject ile tum testlerimizi yapabiliyoruz, ancak Json objesi Java objesi degildir.
+    Biz org.json ve io.restassured kutuphanelerini kullanarak Json objeleri ile islem yapabiliyoruz.
+
+    Is hayatimizda tamamen Java objeleri kullanarak test yapmamiz istenebilir veya karsimiza
+    cikacak kompleks Json datalarini API testimizde kullanmak uzere tek tek yazarak
+    olusturmak zor olabilir.
+
+    Bu durumda Java’dan yararlanarak ve farkli teknikler kullanarak test datalarimizi
+    olusturabilir ve bu datalari kullanarak testlerimizi yapabiliriz
+
+    DE-SERIALIZATION ve MAP KULLANIMI
+
+    Işlem yaptığımız nesneyi, sınıfı saklamak yada transfer etmek istediğimiz formata
+    dönüştürme işlemine Serialization denir.
+
+    Java objelerini API sorgulari yapmak uzere Json objesine cevirmeye Serialization denir.
+
+    Verilen Json objesini testlerimizde kullanmak uzere Java objesine cevirmeye ise  De-Serialization denir.
+
+    JSONObject key-value ikililerini kullandigi icin De-Serialization islemi icin Java’dan
+    kullanacagimiz en uygun data turu Map’tir.
+
+    Olusturacagimiz Request body veya expected datayi direk Map olarak olusturabiliriz.
+
+    Sorgumuz sonucunda donen response objesini De-Serialization ile Map’e cevirmek icin
+    Gson kutuphanesinden yararlanabiliriz. (Bunun icin Gson dependency’yi pom xml’e eklemeliyiz).
+
+    SERIALIZATION KULLANIMI
+    (MAP’TEN JSONObject’e CEVIRME)
+
+    Map’i JSONObject’e cevirmek icin de Gson Class’indan yardim aliriz. Gson Class’indaki
+    metodlari kullanmak icin once o Class’dan bir object olustururuz.
+
+    Gson gson = new Gson();
+
+    String jsonFromJavaObject = gson.toJson(actualDataMap);
+
+    Olusturdugumuz gson objesi ile gson.toJson(actualDataMap); metodunu kullanarak, map’i
+    JSONObject olarak kullanabilecegimiz String formatina ceviririz.
+
+ ----------------------------------------------------------------------------------------------------
+
+    POJO ILE EXPECTED DATA TESTI
+
+    https://www.jsonschema2pojo.org/ --> otomatik şema oluşturur
+    -Source type = JSON
+    -unclick use double numbers
+    -click include constructors
+    -click toString
+
+    *lombok dependency
+
+    Pojo : Plain Old Java Object (Basit java objesi)
+
+    Kompleks request veya response body’lerini olusturmak uzun islem gerektirebilir.
+
+    Daha once yaptigimiz orneklerde TestData Class’lari olusturmus ve tum datalarimizi
+    bu class’larda olusturmustuk.
+
+    Pojo kullaniminda her bir Json Objesi icin method degil Class olusturacagiz.
+
+    Pojo kullaniminda Java’daki encapsulation ozellikleri kullanilir
+
+    Kompleks Json objeleri icin otomatik olarak Pojo Class’lari olusturan
+    web-sitelerinden yardim alabiliriz.
+
+    Basit yapidaki Json objeleri icin kendimiz de Pojo Class’lari olusturabiliriz.
+
+    Bir POJO Class olusturmak icin, 5 adima ihtiyacimiz var
+
+    1) Tum variable’lari  "private" olarak olusturalim
+
+    2) Tum variable’lar icin getter() and setter() metodlari olusturalim
+
+    3) Tum parametreleri iceren bir constructor olusturalim
+
+    4) Default constructor (parametresiz) olusturalim
+
+    5) toString() metodu olusturalim
+
+----------------------------------------------------------------------------------------------------
+
+PATH VE QUERY PARAMETRELERI
+
+     * Bir end-point’i tanimlamak veya daha ayrıntılı nesneleri üzerinde hareket etmek istiyorsaniz Path Param kullanmalısınız
+          Ancak öğeleri sıralamak veya filtrelemek istiyorsanız, Query Parametresi kullanmalısınız.
+          Query parametreleri, kaynakları daha iyi bir şekilde tanımlamaya yardımcı olan benzersiz özelliklere sahiptir.
+
+     * Query parametreleri URL’de "?" İşaretinin sağ tarafında görünürken, Path parametreleri soru işareti işaretinden önce gelir.
+
+     * URL'nin bir parçası oldukları için Path parametrelerindeki değerleri atlayamazsınız.
+         Öte yandan, Query parametreleri URL'nin sonuna eklenir ve bu nedenle serileştirme standartları izlendiği sürece
+         bazı değerlerin çıkarılmasına izin verebilir.
+
+     *Query parametreleri key-value seklinde kullanilir.
+
+     * Ornegin amazon sitesine gidip “api” icin sorgu yaptigimizda,
+         uygulama bizi https://www.amazon.com/s?k=api&ref=nb_sb_noss_1  adresine yonlendirmektedir
+
+         https://www.amazon.com        /s                   ?        k=api        &       ref=nb_sb_noss_1
+             BASE URL               PATH PARAM                    QUERY PARAMS
+
+        Soldaki seceneklerden Web Services’i sectigimizde base url, path param ve ilk query param ayni kalmaktadir
+        https://www.amazon.com/s?k=api&rh=n%3A283155%2Cn%3A377886011&dc&qid=1622368419&rnid=2941120011&ref=sr_nr_n_6
+
+BASE URL KULLANIMI
+
+    * Bir sirkette calistigimizda tum API sorgularimiz Base url ile baslayacaktir.
+
+    * Her sorguda Base url’i tekrar yazmak hem zor, hem de kodlama mantigi acisindan dusuk kalitededir.
+
+    * Bir framework olustururken hedeflenen temel amaclardan biri de framework’u dinamik yapmaktir.
+
+    * Bunu saglamak icin base url ayri bir class’da olusturulur, test yaptigimiz classlar inheritance metotlarini kullanarak base url’i bulundugu class’dan kullanirlar.
+
+    * Boylece base url’de yapilacak bir degisiklikte tum class’lardaki url’leri kontrol edip duzeltmek yerine base url’in bulundugu class’da tek bir degisiklik yapmak yeterli olmaktadir.
+
+BASE URL OLUSTURMA
+    * 1- Projemizde java package’i altinda testlerimizi olusturdugumuz test package’i disinda bir package olusturalim.
+
+    * 2- Bu package altinda her bir base url icin bir class olusturalim
+
+    * 3- Bu class altinda instance bir RequestSpesification objesi olusturalim. (Bu objenin ismi genelde spec ile baslar)
+
+    * 4- Olusturdugumuz objeyi child class’lardan ulasabilmek icin protected yapalim
+
+    * 5- Her metoddan once otomatik olarak calismasi icin @Before notasyonunu kullanarak bir setup metodu olusturalim ve protected olarak olusturdugumuz objeye deger atayalim
+
+BASE URL KULLANIMI
+
+BaseUrl ile PathParams Kullanimi
+
+    * 1- Olusturdugumuz base url class’indaki metodlari kullanabilmek icin extends keyword ile base url class’ini inherit edelim.
+
+    * 2- Olusturdugumuz spec objesi ile birlikte base url’den sonra kullanilacak path parametresi 1 tane ise pathparam, path parametreleri birden fazla ise pathparams metodunu kullanalim.
+
+    * 3- Kullanilacak parametreler “parametre ismi”, “parametre degeri” seklinde esli olarak yazilir. Birden fazla parametre kullanacaksak bu ikililer aralarina virgul yazilarak art arda eklenebilir.
+
+    * 4- Response degerini hesaplarken given() metodundan sonra spec(istenenSpec) metodu yazilir ve when() metodundan sonra yazilan HTTP metodunun icine parametre isimleri { } icinde yazilir.
+
+    * 5- Yazilan parametrelerden once ve parametrelerin arasinda / kullanilir.
+
+    * 6- Yazilan parametrelerin siralamasi onemlidir. Endpoint’teki siralamaya uyulmalidir.
+
+----------------------------------------------------------------------------------------------------
+
+ * jsonpath.com --> iç içe geçmiş JSON Objectlerinde herhangi bir veriyi
+                    okumak için gitmemiz gereken yolu bize gösterir.
+
+        Örnek:
+
+        >first name ve last name'e direk ulaşabiliriz
+
+        >bir JSON object içerisine gömülmüş Strin adrese, adresten geçmeden ulşamayız.
+                       adress.postalcode
+
+        >bir JSON arrayi ise bu array içerisindeki JSON Objectlere ulaşabilmek için index belirleriz.
+                      phonenumbers[0].number
+                      phonenumbers[1].home
+----------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-->

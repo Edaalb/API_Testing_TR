@@ -14,14 +14,17 @@ public class C03_JsonObjesiOlusturma {
  */
     @Test
     public void jsonObje01(){
+        //Temel bir JSON Objesi oluşturmak için pom.xml'e eklediğimiz JSON isimli dependency
+        //aracılığıyla Java'da JSON object tarzında dataları hafızada tutabiliriz
 
+            //dataları Json Object tarzında tutabiliriz.
         JSONObject ilkJsonObje = new JSONObject();
-
+         //map'teki gibi key-value ikililerini ekleyebiliriz
         ilkJsonObje.put("title","Ahmet");
         ilkJsonObje.put("body","Merhaba");
         ilkJsonObje.put("userId",1);
 
-        System.out.println(ilkJsonObje);
+        System.out.println(ilkJsonObje); //direk yazdırılabilir.
     }
 
     @Test
@@ -40,13 +43,15 @@ public class C03_JsonObjesiOlusturma {
                   "lastname":"Brown"
                   }
          */
-        JSONObject innerJsonObje = new JSONObject();
 
+        JSONObject innerJsonObje = new JSONObject();
+        //iç içe Json Objeleri
         innerJsonObje.put("checkin","2018-01-01");
         innerJsonObje.put("checkout","2019-01-01");
 
         JSONObject body = new JSONObject();
-
+        //Json objeleri key olarak sadece String kabul eder
+        //value olarak String, int, boolean, Object kabul edebilir
         body.put("firstname","Jim");
         body.put("additionalneeds","Breakfast");
         body.put("bookingdates",innerJsonObje);

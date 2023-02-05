@@ -2,6 +2,7 @@ package pojos;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import pojos.PojoHerokuappBooking;
 
 @Data
 @NoArgsConstructor

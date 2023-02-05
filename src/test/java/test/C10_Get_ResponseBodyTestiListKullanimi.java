@@ -7,7 +7,8 @@ import static org.hamcrest.Matchers.*;
 
 public class C10_Get_ResponseBodyTestiListKullanimi {
 /*
-            http://dummy.restapiexample.com/api/v1/employees url'ine bir GET request yolladigimizda
+            http://dummy.restapiexample.com/api/v1/employees url'ine
+            bir GET request yolladigimizda
             donen Response'in
             status code'unun 200,
             ve content type'inin application/json,
@@ -31,6 +32,10 @@ public class C10_Get_ResponseBodyTestiListKullanimi {
 
         Response response = given().when().get(url);
 
+        response.prettyPrint();
+        //dönen response'da tek seferde ulaşabileceğimiz 3 tane veri var: status - data - message
+        //array arasında yer alanların hepsi data'nın value'u
+
         // 4 - Assertion
 
         response.
@@ -41,5 +46,10 @@ public class C10_Get_ResponseBodyTestiListKullanimi {
                 body("data.id", hasSize(24),
                         "data.employee_name",hasItem("Ashton Cox"),
                         "data.employee_age",hasItems(61,40,30));
+
+        //hasItem --> liste içinden bir object'i içerip içermediğine bakar
+        //hasItems --> birden çok object içim
+
+
     }
 }

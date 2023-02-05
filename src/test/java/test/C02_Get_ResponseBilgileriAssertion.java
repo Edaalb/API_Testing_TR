@@ -27,6 +27,7 @@ public class C02_Get_ResponseBilgileriAssertion {
 
         // 3 - Donen Response'i kaydet
 
+        //başlangıçta response'ı kaydederken given ve when kullanırız
         Response response = given().when().get(url);
 
         response.prettyPrint();
@@ -34,11 +35,12 @@ public class C02_Get_ResponseBilgileriAssertion {
         // 4 - Assertion
 
         response.
-                then().
-                assertThat().
-                statusCode(200).
+                then(). //response üzerinden then'i çağırıdığımızda
+                assertThat(). //assertThat method'unu getirir ve bundan sonra gelen
+                statusCode(200). //bilgileri assert eder
                 contentType("application/json; charset=utf-8").
                 header("Server","Cowboy").
                 statusLine("HTTP/1.1 200 OK");
+        //response'a ait temel bilgileri assertThat methodundan sonra çağırıp doğrlama işlemlerini yapabiliriz
     }
 }

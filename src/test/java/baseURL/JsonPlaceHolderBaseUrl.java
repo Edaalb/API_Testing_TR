@@ -5,7 +5,9 @@ import org.junit.Before;
 
 public class JsonPlaceHolderBaseUrl {
     protected RequestSpecification specJsonPlace;
-
+    //access modifers objectimizin ulaşabileceği scope'u belirler
+    //protected yaptığımızda kardeş package'ların altındaki class'lardan da
+    //inheritence methodları ile ulaşılabilir
     @Before
     public void setUp(){
 

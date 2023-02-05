@@ -38,7 +38,7 @@ public class C23_Get_DeSerialization extends DummyBaseURL{
         // 2 - Expected Data hazirla
 
         TestDataDummy testDataDummy = new TestDataDummy();
-
+                //bütün olarak içine datayı koyduğumuz methodu çağırmaya dikkat edelim
         HashMap<String,Object> expData = testDataDummy.expectedBodyOlusturMap();
 
         System.out.println("Expected Data Map : " + expData);
@@ -50,7 +50,7 @@ public class C23_Get_DeSerialization extends DummyBaseURL{
         response.prettyPrint();
 
         // 4 - Assertion
-
+                                   //önce temel bilgileri assert edelim
         Assert.assertEquals(testDataDummy.basariliStatusCode,response.getStatusCode());
         Assert.assertEquals(testDataDummy.contentType,response.getContentType());
 
@@ -61,8 +61,11 @@ public class C23_Get_DeSerialization extends DummyBaseURL{
 
         HashMap<String,Object> respMap = response.as(HashMap.class);
 
+        //dış katmanda olanlar
         Assert.assertEquals(expData.get("status"),respMap.get("status"));
         Assert.assertEquals(expData.get("message"),respMap.get("message"));
+
+        //inner body               //map'e pars ettikten sonra get gelir
         Assert.assertEquals (     ((Map)(expData.get("data"))).get("id")    ,
                 ((Map)(respMap.get("data"))).get("id")         );
 

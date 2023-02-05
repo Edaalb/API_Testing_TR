@@ -9,6 +9,9 @@ import org.testng.asserts.SoftAssert;
 import static io.restassured.RestAssured.given;
 
 public class C13_Get_SoftAssertIleExpectedDataTesti {
+
+    //pom.xml'e testNG ekleriz
+
     /*
    http://dummy.restapiexample.com/api/v1/employee/3 url’ine bir GET request
    gonderdigimizde donen response’un asagidaki gibi oldugunu test edin.
@@ -25,7 +28,10 @@ public class C13_Get_SoftAssertIleExpectedDataTesti {
        "message":"Successfully! Record has been fetched."
        }
     */
-    @Test
+
+    //burada test notasyonumuzu nereden aldığımıza dikkat etmemiz gerekir
+    //hem testNG hem de JUnit sistemimizde yüklü
+    @Test //TestNG'den alıyoruz
     public void get01(){
 
         // 1 - URL hazirla
@@ -47,6 +53,8 @@ public class C13_Get_SoftAssertIleExpectedDataTesti {
         "message":"Successfully! Record has been fetched."
         }
          */
+
+        //önce innerBody oluşturalım, ulaşacağımız bilgiler data'nın altında direk ulaşamayız
         JSONObject innerBody = new JSONObject();
 
         innerBody.put("id",3);
@@ -55,22 +63,29 @@ public class C13_Get_SoftAssertIleExpectedDataTesti {
         innerBody.put("employee_age",66);
         innerBody.put("profile_image","");
 
+        //oluşturduğumuz expBody,
+        //assertion'da dönecek olan response ile karşılaştırma yapacağımız body'dir
+        //bunu expected data için hazırladık
         JSONObject expBody = new JSONObject();
 
         expBody.put("status","success");
         expBody.put("message","Successfully! Record has been fetched.");
-        expBody.put("data",innerBody);
+        expBody.put("data",innerBody); //burayı yukarıda oluşturduk
 
         // 3 - Response'i kaydet
 
+        //her hazırladığımız body'i göndermek zorunda değiliz
+        //eğer get methodumuz varsa sadece url'i hazırlarız,
+        // herhangi bir request body'e ihtiyacımız yoktur
         Response response = given().when().get(url);
+        //get request olduğu için pre-condition ve body yok
 
         // 4 - Assertion
 
         JsonPath resJPath = response.jsonPath();
 
         SoftAssert softAssert = new SoftAssert();
-
+            //önce actual, sonra expected
         softAssert.assertEquals(resJPath.get("status"),expBody.get("status"));
         softAssert.assertEquals(resJPath.get("message"),expBody.get("message"));
         softAssert.assertEquals(resJPath.get("data.id"),expBody.getJSONObject("data").get("id"));
@@ -80,5 +95,6 @@ public class C13_Get_SoftAssertIleExpectedDataTesti {
         softAssert.assertEquals(resJPath.get("data.profile_image"),expBody.getJSONObject("data").get("profile_image"));
 
         softAssert.assertAll();
+
     }
 }

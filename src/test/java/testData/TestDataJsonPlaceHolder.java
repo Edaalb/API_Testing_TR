@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 public class TestDataJsonPlaceHolder {
     public int basariliStatusCode = 200;
+
     public String contentType = "application/json; charset=utf-8";
     public String connectionHeaderDegeri = "keep-alive";
 
@@ -33,9 +34,10 @@ public class TestDataJsonPlaceHolder {
         return reqBodyJson;
     }
 
-
     public HashMap requestBodyOlusturMap (){
 
+        //JSON verilerinin hiçbir kayıba uğramadan tüm değerleri içerebilmesi için
+        //key'leri String, value'lar için Object koymalıyız. Object int, String vs. hepsini içerir
         HashMap<String,Object> requestBodyMap = new HashMap<>();
 
         requestBodyMap.put("title","Ahmet");

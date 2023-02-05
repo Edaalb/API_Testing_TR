@@ -40,8 +40,13 @@ public class C01_Get_ApiSorgulama {
 
         // 4 - Expected Data ile Actual datanin karsilastirmasi - Assertion
 
-
-
-
+        //response'a dair temel bilgileri çağırıp yazdırarak dönen sonuçları gözümüzle manuel olarak
+        //test ettik
     }
+
+    //bu class'ta manuel bir test yaptık. API sorgusunu buradan çalıştırmış olmak ile Postman
+    //üzerinden çalıştırmış olmak arasında teknik olarak bir fark yoktur
+    //postman yerine pom.xml'imize yüklediğimiz rest-assured kütüphanesi ile sorguyu Intelij
+    //üzerinden yapmış olduk
+
 }

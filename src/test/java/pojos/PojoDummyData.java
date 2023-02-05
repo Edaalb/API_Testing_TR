@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+    //IPA'da OOP consept'in kullanıldığı yer neresidir?
+    // Jojo
+
     @Data
     @NoArgsConstructor
     @AllArgsConstructor

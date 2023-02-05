@@ -9,12 +9,12 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 
 public class C09_Post_JsonPathIleBodyTesti {
+
      /*
-            https://restful-booker.herokuapp.com/booking
-             url’ine asagidaki body'ye sahip
+            https://restful-booker.herokuapp.com/booking url’ine asagidaki body'ye sahip
             bir POST request gonderdigimizde
                        {
-                            "firstname" : "Ali",
+                            "firstname" : "Ali",   <-- göndeceğimiz request body'si
                             "lastname" : "Bak",
                             "totalprice" : 500,
                             "depositpaid" : false,
@@ -28,7 +28,7 @@ public class C09_Post_JsonPathIleBodyTesti {
             status code’unun 200,
             ve content type’inin application-json,
             ve response body’sindeki
-                "firstname“in,"Ali",
+                "firstname“in,"Ali",      <-- dönen response'da bu bilgilerin olduğu test edilecek
                 ve "lastname“in, "Bak",
                 ve "totalprice“in,500,
                 ve "depositpaid“in,false,
@@ -39,9 +39,9 @@ public class C09_Post_JsonPathIleBodyTesti {
      */
 
     @Test
-    public void post01(){
+    public void post01() {
 
-        // 1 - URL ve Body hazirla
+        // 1 - URL ve Body hazirla  (post request olduğu için body hazırlamaya ihtiyaç vardır)
 
         String url = "https://restful-booker.herokuapp.com/booking";
 
@@ -59,31 +59,36 @@ public class C09_Post_JsonPathIleBodyTesti {
                         }
          */
 
+        //inner body'i oluştururuz
         JSONObject innerBody = new JSONObject();
-
+        //içerisine checkin/checkout tarihlerini koyarız
         innerBody.put("checkin", "2021-06-01");
         innerBody.put("checkout", "2021-06-10");
 
         JSONObject reqBody = new JSONObject();
 
-        reqBody.put("firstname" , "Ali");
-        reqBody.put("lastname" , "Bak");
-        reqBody.put("totalprice" , 500);
-        reqBody.put("depositpaid" , false);
-        reqBody.put("bookingdates" ,innerBody);
-        reqBody.put("additionalneeds" , "wi-fi");
+        reqBody.put("firstname", "Ali");
+        reqBody.put("lastname", "Bak");
+        reqBody.put("totalprice", 500);
+        reqBody.put("depositpaid", false);
+        reqBody.put("bookingdates", innerBody);
+        reqBody.put("additionalneeds", "wi-fi");
 
         // 2 - Expected Data hazirla
 
         // 3 - Response'i kaydet
 
         Response response = given().
-                contentType(ContentType.JSON).
+                contentType(ContentType.JSON). //pre-condition
                 when().
                 body(reqBody.toString()).
                 post(url);
         response.prettyPrint();
+
         // 4 - Assertion
+
+        //response body'si iç içe JSON Objects'den oluşuyorsa
+        //JsoPath yöntemleri kullanılarak assertion yapılabilir
 
         response.
                 then().
@@ -91,11 +96,33 @@ public class C09_Post_JsonPathIleBodyTesti {
                 statusCode(200).
                 contentType(ContentType.JSON).
                 body("booking.firstname", equalTo("Ali"),
-                        "booking.lastname",equalTo("Bak"),
-                        "booking.totalprice",equalTo(500),
-                        "booking.depositpaid",equalTo(false),
-                        "booking.bookingdates.checkin",equalTo("2021-06-01"),
-                        "booking.bookingdates.checkout",equalTo("2021-06-10"),
-                        "booking.additionalneeds",equalTo("wi-fi"));
+                        "booking.lastname", equalTo("Bak"),
+                        "booking.totalprice", equalTo(500),
+                        "booking.depositpaid", equalTo(false),
+                        "booking.bookingdates.checkin", equalTo("2021-06-01"),
+                        "booking.bookingdates.checkout", equalTo("2021-06-10"),
+                        "booking.additionalneeds", equalTo("wi-fi"));
+
+        //3.aşamada response body'i yazdırdığımızda iki tane değer olduğunu görürüz.
+        //bunlar bookingid ve booking'dir. Bunlar kardeş level'lardır
+        //firstname'e ulaşmak için önce parent'ından izin almalıyız
+
+        /*
+        {
+    "bookingid": 11716,
+    "booking": {
+        "firstname": "Ali",
+        "lastname": "Bak",
+        "totalprice": 500,
+        "depositpaid": false,
+        "bookingdates": {
+            "checkin": "2021-06-01",
+            "checkout": "2021-06-10"
+        },
+        "additionalneeds": "wi-fi"
+    }
+}
+         */
+
     }
 }

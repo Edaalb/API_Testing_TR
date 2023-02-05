@@ -10,6 +10,9 @@ import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
 
 public class C12_Post_ExpectedDataVeJsonPathIleAssertion {
+
+    //Jnit ile Hard Assert yaparız
+
     /*
     https://restful-booker.herokuapp.com/booking url’ine
     asagidaki body'ye sahip bir POST request gonderdigimizde
@@ -70,26 +73,35 @@ public class C12_Post_ExpectedDataVeJsonPathIleAssertion {
 
         JSONObject expBody = new JSONObject();
 
+        //bookingid doğrulamasını yapmayacağız, bu yüzden hangi değeri yazdığımızın önemi yok
+       //ancak expected body oluştururken mutlaka key değerini gönderip ona bir value atamamız gerekir
         expBody.put("bookingid",24);
         expBody.put("booking",reqBody);
+        //booking'in değeri request body'dir
 
         // System.out.println("expBody = " + expBody);
 
         // 3 - Response'i kaydet
 
+        //post request'te body göndeririz, body varsa format bildirmek zorundayız
         Response response = given().
-                contentType(ContentType.JSON).
+                contentType(ContentType.JSON). //pre-condition
                 when().
                 body(reqBody.toString()).
-                post(url);
+                post(url); //çalıştığında response kaydedilmiş olacak
+        //reqBody --> bizim hazırladığımız
+        //expBody --> ile ilgili işlemleri sadece Assertion'da yapacağız
 
         // System.out.println("response = ");
         // response.prettyPrint();
 
         // 4 - Assertion
 
+        //ilk etapta JSON response'ı JSONPath'e dönüştürürüz
         JsonPath resJsonPath = response.jsonPath();
 
+        //Java JSON objectlerine bir bütün olarak bakar, path'ini vermiş olsak bile içerisine direk olarak giremeyeiz
+        //bu yüzden getJSONObject kullanırız
         assertEquals(expBody.getJSONObject("booking").get("firstname"),resJsonPath.get("booking.firstname"));
         assertEquals(expBody.getJSONObject("booking").get("lastname"),resJsonPath.get("booking.lastname"));
         assertEquals(expBody.getJSONObject("booking").get("additionalneeds"),resJsonPath.get("booking.additionalneeds"));

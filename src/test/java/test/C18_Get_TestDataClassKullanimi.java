@@ -10,11 +10,13 @@ import testData.TestDataJsonPlaceHolder;
 import static io.restassured.RestAssured.given;
 
 public class C18_Get_TestDataClassKullanimi extends JsonPlaceHolderBaseUrl{
+
     /*
-  https://jsonplaceholder.typicode.com/posts/22 url'ine bir GET
-  request yolladigimizda donen response’in status kodunun 200 ve
-  response body’sinin asagida verilen ile ayni oldugunu test ediniz
-   Response body :
+      https://jsonplaceholder.typicode.com/posts/22 url'ine bir GET
+      request yolladigimizda donen response’in status kodunun 200 ve
+      response body’sinin asagida verilen ile ayni oldugunu test ediniz
+
+         Response body :
     {
     "userId":3,
     "id":22,
@@ -50,5 +52,11 @@ public class C18_Get_TestDataClassKullanimi extends JsonPlaceHolderBaseUrl{
         Assert.assertEquals(expData.get("id"),resJPath.get("id"));
         Assert.assertEquals(expData.get("title"),resJPath.get("title"));
         Assert.assertEquals(expData.get("body"),resJPath.get("body"));
+
+        //response'a ait temel bilgileri response üzerinden direk alabiliyoruz
+        //response body'e ait bilgileri jsonPath üzerinden sorgularız
+        //statusCode'u response üzerinden çağırırız
+        //ancak response'ın dönen body'sine dair bilgileri JSONOnbect'i üzerinden
+        //direk sorgulayamadığımızdan JSONPath kullanırız
     }
 }

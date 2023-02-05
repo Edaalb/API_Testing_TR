@@ -9,10 +9,12 @@ import org.junit.Test;
 import static io.restassured.RestAssured.given;
 
 public class C11_Get_ExpectedDataOlusturma {
+
       /*
     https://jsonplaceholder.typicode.com/posts/22 url'ine
     bir GET request yolladigimizda donen response body’sinin
     asagida verilen ile ayni oldugunu test ediniz
+
    Response body :
     {
     "userId":3,
@@ -50,14 +52,20 @@ public class C11_Get_ExpectedDataOlusturma {
 
         // 4 - Assertion
 
-        // NOT : Oncelikle gereken sey Response'i JSONPath objesine donusturmek
+        //bize dönen response body her ne kadar JSON Object olarak dönse de
+        //eğer response'ın then ve assert methodunu kullanmıyorsak
+        // bunu bölüp değerlendirmek için JSONPath data türüne dönüştürmemiz gerekir.
 
+        // NOT : Oncelikle gereken sey Response'i JSONPath objesine donusturmek
         JsonPath resJsonPath = response.jsonPath();
 
+        //JUnit'de önce expected sonra actual conditional yazılır
         Assert.assertEquals(expBody.get("userId"),resJsonPath.getInt("userId"));
         Assert.assertEquals(expBody.get("id"),resJsonPath.getInt("id"));
         Assert.assertEquals(expBody.get("title"),resJsonPath.getString("title"));
         Assert.assertEquals(expBody.get("body"),resJsonPath.getString("body"));
 
+        //response üzerinden gelen then'de de assertion yapıloyor ancak bundan farkı manuel olması
+        //onda değerinin ne olduğunu bilmek zorundaydık, sorgulamaya değeri atıyorduk
     }
 }

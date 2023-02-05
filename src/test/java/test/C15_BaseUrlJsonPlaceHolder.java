@@ -8,26 +8,12 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
 public class C15_BaseUrlJsonPlaceHolder extends JsonPlaceHolderBaseUrl{
+
     //Class icinde 3 Test metodu olusturun ve asagidaki testleri yapin
 
-    /*
-        1-  https://jsonplaceholder.typicode.com/posts endpointine bir GET
-         request gonderdigimizde donen response’un status code’unun 200 oldugunu
-         ve Response’ta 100 kayit oldugunu test edin.
-        */
-
-    /*
-        2- https://jsonplaceholder.typicode.com/posts/44 endpointine bir GET
-            request gonderdigimizde donen response’un status code’unun 200 oldugunu
-            ve “title” degerinin “optio dolor molestias sit” oldugunu test edin
-         */
-    /*
-        3- https://jsonplaceholder.typicode.com/posts/50 endpointine bir DELETE
-            request gonderdigimizde donen response’un status code’unun 200 oldugunu ve
-            response body’sinin null oldugunu test edin
-         */
     @Test
     public void get01(){
+
             /*
         1-  https://jsonplaceholder.typicode.com/posts endpointine bir GET
          request gonderdigimizde donen response’un status code’unun 200 oldugunu
@@ -36,16 +22,26 @@ public class C15_BaseUrlJsonPlaceHolder extends JsonPlaceHolderBaseUrl{
 
         // 1 - URL hazirla
 
+        //extens ederiz
+        //önce kendimiz isim veririz, sonra olması gereken değeri alıp yapıştırırız
         specJsonPlace.pathParam("pp1","posts");
 
         // 2 - Expected Data hazirla
 
         // 3 - Response'i kaydet
 
+        //artık spec(baseUrl) başka bir yerde hazırlanmış olduğundan ve
+        //get methodu içerisine bir bütün url, endpoint yazamayacağımız için
+        //çalıştıracağımız methodları tanıtmamız gerekir
+        //yani request'i yollarken hem baseUrl'i hem de ardından pathParametrelerini
+        //göstermemiz gerekmektedir.
         Response response = given().
-                spec(specJsonPlace).
+                spec(specJsonPlace). //burası sadece url'de .com'a kadar olan kısımı tamamlar
                 when().
-                get("/{pp1}");
+                get("/{pp1}");//methodun içerisine yukarıda path parametresi olarak
+                                //hazırladığımız parametreyi gömeriz
+                     //pp1 = posts  bunu alıp adresin ardına yapıştıracak ve endpoint'i tamamlar
+
 
         // 4 - Assertion
 
@@ -54,8 +50,6 @@ public class C15_BaseUrlJsonPlaceHolder extends JsonPlaceHolderBaseUrl{
                 assertThat().
                 statusCode(200).
                 body("title", hasSize(100));
-
-
     }
     @Test
     public void get02(){
@@ -64,6 +58,7 @@ public class C15_BaseUrlJsonPlaceHolder extends JsonPlaceHolderBaseUrl{
             request gonderdigimizde donen response’un status code’unun 200 oldugunu
             ve “title” degerinin “optio dolor molestias sit” oldugunu test edin
          */
+
         // 1 - URL hazirla
 
         specJsonPlace.pathParams("pp1","posts","pp2",44);
@@ -75,7 +70,8 @@ public class C15_BaseUrlJsonPlaceHolder extends JsonPlaceHolderBaseUrl{
         Response response = given().
                 spec(specJsonPlace).
                 when().
-                get("/{pp1}/{pp2}");
+                get("/{pp1}/{pp2}"); //iki parametremiz varsa {} kullanırız
+                                        //sıralaması önemli
 
         // 4 - Assertion
 
@@ -92,11 +88,13 @@ public class C15_BaseUrlJsonPlaceHolder extends JsonPlaceHolderBaseUrl{
             request gonderdigimizde donen response’un status code’unun 200 oldugunu ve
             response body’sinin null oldugunu test edin
          */
+
         // 1 - URL ve body hazirligi
 
         specJsonPlace.pathParams("pp1","posts","pp2",50);
 
         // 2 - Expected Data hazirla
+
         // 3 - Response'u kaydet
 
         Response response = given().

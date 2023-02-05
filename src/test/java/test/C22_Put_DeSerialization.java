@@ -12,6 +12,10 @@ import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 public class C22_Put_DeSerialization extends JsonPlaceHolderBaseUrl{
+
+       //Map'i JSON'a çevirdiğimizde Serialization,
+       //JSON'ı map'e çevirdiğimizde De-Serialization
+
     /*
         https://jsonplaceholder.typicode.com/posts/70 url'ine asagidaki
         body’e sahip bir PUT request yolladigimizda donen response’in
@@ -38,8 +42,13 @@ public class C22_Put_DeSerialization extends JsonPlaceHolderBaseUrl{
 
         specJsonPlace.pathParams("pp1","posts","pp2",70);
 
+        //object üzerinden testdata class'ında hazırladığımız method'u çağırırmak için
+        //bir object oluştururuz
         TestDataJsonPlaceHolder testDataJsonPlaceHolder = new TestDataJsonPlaceHolder();
 
+        //yukarıda oluşturduğumuz object üzerinden methodu çağırırız
+        //bir işlem yapabilemek için bunu kaydederiz
+        //kaydettiğimiz variable'ın data tipi method bize bir map döndürdüğü için map olmalıdır
         HashMap<String,Object> reqBody = testDataJsonPlaceHolder.requestBodyOlusturMap();
 
         System.out.println("reqBody map = " + reqBody);
@@ -50,21 +59,29 @@ public class C22_Put_DeSerialization extends JsonPlaceHolderBaseUrl{
 
         // 3 - Response'i kaydet
 
+        //işlemimizi Java üzerinden yapıyor olsak da, çalışacak olan api'nin data türü
+        //belirlenmiş olan 4 türün dışına çıkamayız. bu yüzden yine JSON kullanırız
+        //bilgileri map'e koymuş olsak da götürürken json götürecek
         Response response = given().
                 spec(specJsonPlace).
                 contentType(ContentType.JSON).
                 when().
                 body(reqBody).
                 put("/{pp1}/{pp2}");
+        //öncesinde toString'e çeviriyorduk çünkü JSONObject Java'ya ait bir format değil
+        //ancak Map Java'ya ait bir format olduğu için çevirmek zorunda değiliz
 
         response.prettyPrint();
 
         // 4 - Assertion
 
+        //önceki sorgularımızda JSONPath'e dönüştürüyorduk, şimdi HashMap'e dönüştüreceğiz
+
         // Not : Bizim hazirlamis oldugumuz Expected Data Map formatinda.
         // Bize response'dan donen Response Body ise Json formatinda
         // Ikisini Assert methodlari icerisinde kiyaslayabilmemiz icin oncelikle
         // response'i map formatina parse etmemiz gerekiyor.
+
 
         HashMap<String,Object> respMap = response.as(HashMap.class);
 

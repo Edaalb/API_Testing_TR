@@ -17,7 +17,8 @@ public class TestDataHerokuapp {
            }
        }
      */
-
+                   //önce inner body oluştururuz sonra bunu body'i içine yerleştiririz
+                    //ve o method'u call ederiz
     public HashMap bookingDatesOlusturMap() {
 
         HashMap <String,Object> bookingdates = new HashMap<>();

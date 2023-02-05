@@ -1,6 +1,10 @@
 package pojos;
 
 public class POJOJsonPlaceHolder {
+
+    //pojo'da bir kalıp oluştururuz, sonra o kalıp üzerine istediğimiz şeyi ekleriz
+    //bir şablon gibidir, istediğimiz objecti üzerinden elde ederiz
+
     /*
     {
     "title":"Ahmet",
@@ -20,7 +24,7 @@ public class POJOJsonPlaceHolder {
 
     // 2. Adim : Getter ve Setter hazirla
 
-
+    //sağ tık - generate - Getter Setter - hepsini seç
     public String getTitle() {
         return title;
     }
@@ -55,7 +59,7 @@ public class POJOJsonPlaceHolder {
 
     // 3. Adim : Tum parametreleri iceren Constructor create et
 
-
+     // Generate - Constructor - tüm parametreleri seç
     public POJOJsonPlaceHolder(String title, String body, int id, int userId) {
         this.title = title;
         this.body = body;
@@ -64,12 +68,10 @@ public class POJOJsonPlaceHolder {
     }
 
     // 4. Adim : Parametresiz Constructor create et
-    public POJOJsonPlaceHolder() {
+    public POJOJsonPlaceHolder() { //generate - constructor - select none
     }
 
     // 5. Adim : toString() metodu create et
-
-
     @Override
     public String toString() {
         return "POJOJsonPlaceHolder{" +

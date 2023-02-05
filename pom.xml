@@ -48,6 +48,8 @@
             <scope>test</scope>
         </dependency>
 
+        <!--JSON objesini De-Serialization ile Map’e cevirmek icin  -->
+
         <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
@@ -55,12 +57,15 @@
             <version>2.9.0</version>
         </dependency>
 
+        <!-- jojo -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>RELEASE</version>
             <scope>test</scope>
         </dependency>
+
+
     </dependencies>
 
 </project>

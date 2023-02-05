@@ -5,12 +5,12 @@ import org.junit.Before;
 
 public class HerokuappBaseUrl {
     protected RequestSpecification specHerokuapp;
-
+    //child class'lardan ulaşabilmek için protected
     @Before
     public void setUp(){
 
         specHerokuapp = new RequestSpecBuilder().
-                setBaseUri("https://restful-booker.herokuapp.com").
+                setBaseUri("https://restful-booker.herokuapp.com"). //baseUrl
                 build();
 
     }

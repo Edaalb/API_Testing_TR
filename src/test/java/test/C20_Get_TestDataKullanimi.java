@@ -11,6 +11,7 @@ import testData.TestDataDummy;
 import static io.restassured.RestAssured.given;
 
 public class C20_Get_TestDataKullanimi extends DummyBaseURL {
+
     /*
    http://dummy.restapiexample.com/api/v1/employee/3 url’ine bir GET request
    gonderdigimizde donen response’un status code’unun 200,
@@ -28,6 +29,7 @@ public class C20_Get_TestDataKullanimi extends DummyBaseURL {
    "message":"Successfully! Record has been fetched."
    }
     */
+
     @Test
     public void get01(){
 
