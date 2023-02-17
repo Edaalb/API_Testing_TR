@@ -236,7 +236,7 @@ BaseUrl ile PathParams Kullanimi
 
         >first name ve last name'e direk ulaşabiliriz
 
-        >bir JSON object içerisine gömülmüş Strin adrese, adresten geçmeden ulşamayız.
+        >bir JSON object içerisine gömülmüş String adrese, adresten geçmeden ulşamayız.
                        adress.postalcode
 
         >bir JSON arrayi ise bu array içerisindeki JSON Objectlere ulaşabilmek için index belirleriz.
